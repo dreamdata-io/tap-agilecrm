@@ -1,2 +1,2 @@
-# tap-agilecms
-A singer.io tap for AgileCMS
+# tap-agilecrm
+A singer.io tap for AgileCRM
