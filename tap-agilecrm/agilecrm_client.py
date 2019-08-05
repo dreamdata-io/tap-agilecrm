@@ -8,7 +8,7 @@ class AgileCRM:
         domain,
         api_key,
         pagination_page_size=50,
-        pagination_global_sort_key="-created_time",
+        pagination_global_sort_key="updated_time",
         **kwargs,
     ):
         self.__session = Session(**kwargs)
