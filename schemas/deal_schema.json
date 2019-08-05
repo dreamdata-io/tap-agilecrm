@@ -180,7 +180,7 @@
     },
     "currency_conversion_value": {
       "$id": "#/properties/currency_conversion_value",
-      "type": "integer",
+      "type": "number",
       "title": "The Currency_conversion_value Schema",
       "default": 0,
       "examples": [
@@ -234,7 +234,7 @@
     },
     "discount_amt": {
       "$id": "#/properties/discount_amt",
-      "type": "integer",
+      "type": "number",
       "title": "The Discount_amt Schema",
       "default": 0,
       "examples": [
@@ -253,7 +253,7 @@
     },
     "discount_value": {
       "$id": "#/properties/discount_value",
-      "type": "integer",
+      "type": "number",
       "title": "The Discount_value Schema",
       "default": 0,
       "examples": [
@@ -272,7 +272,7 @@
     },
     "expected_value": {
       "$id": "#/properties/expected_value",
-      "type": "integer",
+      "type": "number",
       "title": "The Expected_value Schema",
       "default": 0,
       "examples": [
@@ -376,7 +376,7 @@
     },
     "total_deal_value": {
       "$id": "#/properties/total_deal_value",
-      "type": "integer",
+      "type": "number",
       "title": "The Total_deal_value Schema",
       "default": 0,
       "examples": [
