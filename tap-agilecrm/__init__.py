@@ -56,7 +56,7 @@ def process_companies(**kwargs):
     }
     
     process_stream(
-        stream_name = "company",
+        stream_name = "company_entity",
         stream_generator = client.list_companies(**kwargs),
         key_properties = ["id"],
         bookmark_properties = ["updated_time"],
@@ -89,7 +89,7 @@ def process_contacts(**kwargs):
         "viewed_time",
     }
     process_stream(
-        stream_name = "contact",
+        stream_name = "contact_entity",
         stream_generator = client.list_contacts(**kwargs),
         key_properties = ["id"],
         bookmark_properties = ["updated_time"],
@@ -128,7 +128,7 @@ def process_deals(**kwargs):
     }
 
     process_stream(
-        stream_name = "deal",
+        stream_name = "deal", # no '_entity' suffix here
         stream_generator = client.list_deals(**kwargs),
         key_properties = ["id"],
         bookmark_properties = ["updated_time"],
