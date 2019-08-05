@@ -1,34 +1,77 @@
 #!/usr/bin/env python
 
+import json
+import os
+import sys
+from datetime import datetime
+from typing import Any, Dict, Generator, List
+
 import singer
-from singer.utils import parse_args
+from singer import utils
 
 from agilecrm_client import AgileCRM
 
 REQUIRED_CONFIG_KEYS = ["api_key", "email", "domain"]
 
+logger = singer.get_logger()
+
+args = utils.parse_args(REQUIRED_CONFIG_KEYS)
+
+EMAIL = args.config.get("email")
+DOMAIN = args.config.get("domain")
+API_KEY = args.config.get("api_key")
+
+client = AgileCRM(EMAIL, DOMAIN, API_KEY)
+
 
 def main():
-    args = parse_args(REQUIRED_CONFIG_KEYS)
+    process_companies()
+    process_contacts()
+    process_deals()
 
-    email = args.config.get("email")
-    domain = args.config.get("domain")
-    api_key = args.config.get("api_key")
 
-    client = AgileCRM(email, domain, api_key)
+def process_companies(**kwargs):
+    return process_stream(
+        stream_name = "company",
+        stream_generator = client.list_companies(**kwargs),
+        key_properties = ["id"],
+        bookmark_properties = ["updated_time"],
+    )
 
-    for company in client.list_companies(page_size=1):
-        print(f"company: {company}")
-        break
+def process_contacts(**kwargs):
+    process_stream(
+        stream_name = "contact",
+        stream_generator = client.list_contacts(**kwargs),
+        key_properties = ["id"],
+        bookmark_properties = ["updated_time"],
+    )
 
-    for contact in client.list_contacts(page_size=1):
-        print(f"contact: {contact}")
-        break
+def process_deals(**kwargs):
+    process_stream(
+        stream_name = "deal",
+        stream_generator = client.list_deals(**kwargs),
+        key_properties = ["id"],
+        bookmark_properties = ["updated_time"],
+    )
 
-    for deals in client.list_deals(page_size=1):
-        print(f"deals: {deals}")
-        break
 
+def process_stream(
+    stream_name: str,
+    stream_generator: Generator[Dict[str, Any], None, None],
+    key_properties: List[str],
+    bookmark_properties: str = None,
+    stream_alias: str = None,
+):
+    # load schema from disk
+    with open(f"schemas/{stream_name}_schema.json", "r") as fp:
+        schema = json.load(fp)
+
+    # write schema
+    singer.write_schema(stream_name, schema, key_properties, stream_alias)
+
+    # write records
+    for record in stream_generator:
+        singer.write_record(stream_name, record, time_extracted=utils.now())
 
 if __name__ == "__main__":
     main()
