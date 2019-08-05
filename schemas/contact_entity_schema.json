@@ -274,7 +274,6 @@
         "title": "The Items Schema",
         "required": [
           "name",
-          "subtype",
           "type",
           "value"
         ],
