@@ -1,0 +1,379 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "contact_company_id",
+    "created_time",
+    "entity_type",
+    "id",
+    "is_lead_converted",
+    "klout_score",
+    "last_called",
+    "last_campaign_emaild",
+    "last_contacted",
+    "last_emailed",
+    "lead_converted_time",
+    "lead_score",
+    "lead_source_id",
+    "lead_status_id",
+    "owner",
+    "properties",
+    "star_value",
+    "tags",
+    "type",
+    "updated_time",
+    "viewed_time"
+  ],
+  "properties": {
+    "contact_company_id": {
+      "$id": "#/properties/contact_company_id",
+      "type": "string",
+      "title": "The Contact_company_id Schema",
+      "default": "",
+      "examples": [
+        "1234567890123456"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "created_time": {
+      "$id": "#/properties/created_time",
+      "type": "integer",
+      "title": "The Created_time Schema",
+      "default": 0,
+      "examples": [
+        1555482457
+      ]
+    },
+    "entity_type": {
+      "$id": "#/properties/entity_type",
+      "type": "string",
+      "title": "The Entity_type Schema",
+      "default": "",
+      "examples": [
+        "contact_entity"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "id": {
+      "$id": "#/properties/id",
+      "type": "integer",
+      "title": "The Id Schema",
+      "default": 0,
+      "examples": [
+        1234567890123456
+      ]
+    },
+    "is_lead_converted": {
+      "$id": "#/properties/is_lead_converted",
+      "type": "boolean",
+      "title": "The Is_lead_converted Schema",
+      "default": false,
+      "examples": [
+        false
+      ]
+    },
+    "klout_score": {
+      "$id": "#/properties/klout_score",
+      "type": "string",
+      "title": "The Klout_score Schema",
+      "default": "",
+      "examples": [
+        ""
+      ],
+      "pattern": "^(.*)$"
+    },
+    "last_called": {
+      "$id": "#/properties/last_called",
+      "type": "integer",
+      "title": "The Last_called Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "last_campaign_emaild": {
+      "$id": "#/properties/last_campaign_emaild",
+      "type": "integer",
+      "title": "The Last_campaign_emaild Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "last_contacted": {
+      "$id": "#/properties/last_contacted",
+      "type": "integer",
+      "title": "The Last_contacted Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "last_emailed": {
+      "$id": "#/properties/last_emailed",
+      "type": "integer",
+      "title": "The Last_emailed Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "lead_converted_time": {
+      "$id": "#/properties/lead_converted_time",
+      "type": "integer",
+      "title": "The Lead_converted_time Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "lead_score": {
+      "$id": "#/properties/lead_score",
+      "type": "integer",
+      "title": "The Lead_score Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "lead_source_id": {
+      "$id": "#/properties/lead_source_id",
+      "type": "integer",
+      "title": "The Lead_source_id Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "lead_status_id": {
+      "$id": "#/properties/lead_status_id",
+      "type": "integer",
+      "title": "The Lead_status_id Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "owner": {
+      "$id": "#/properties/owner",
+      "type": "object",
+      "title": "The Owner Schema",
+      "required": [
+        "calendarURL",
+        "calendar_url",
+        "domain",
+        "email",
+        "id",
+        "name",
+        "phone",
+        "pic",
+        "schedule_id"
+      ],
+      "properties": {
+        "calendarURL": {
+          "$id": "#/properties/owner/properties/calendarURL",
+          "type": "string",
+          "title": "The Calendarurl Schema",
+          "default": "",
+          "examples": [
+            "<URL>"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "calendar_url": {
+          "$id": "#/properties/owner/properties/calendar_url",
+          "type": "string",
+          "title": "The Calendar_url Schema",
+          "default": "",
+          "examples": [
+            "<URL>"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "domain": {
+          "$id": "#/properties/owner/properties/domain",
+          "type": "string",
+          "title": "The Domain Schema",
+          "default": "",
+          "examples": [
+            "<DOMAIN>"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "email": {
+          "$id": "#/properties/owner/properties/email",
+          "type": "string",
+          "title": "The Email Schema",
+          "default": "",
+          "examples": [
+            "<OWNER_EMAIL>"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "id": {
+          "$id": "#/properties/owner/properties/id",
+          "type": "integer",
+          "title": "The Id Schema",
+          "default": 0,
+          "examples": [
+            1234567890123456
+          ]
+        },
+        "name": {
+          "$id": "#/properties/owner/properties/name",
+          "type": "string",
+          "title": "The Name Schema",
+          "default": "",
+          "examples": [
+            "<OWNER_NAME>"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "phone": {
+          "$id": "#/properties/owner/properties/phone",
+          "type": "string",
+          "title": "The Phone Schema",
+          "default": "",
+          "examples": [
+            "<OWNER_PHONE>"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "pic": {
+          "$id": "#/properties/owner/properties/pic",
+          "type": "string",
+          "title": "The Pic Schema",
+          "default": "",
+          "examples": [
+            "<URI>"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "schedule_id": {
+          "$id": "#/properties/owner/properties/schedule_id",
+          "type": "string",
+          "title": "The Schedule_id Schema",
+          "default": "",
+          "examples": [
+            "<SCHEDULE_ID>"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "properties": {
+      "$id": "#/properties/properties",
+      "type": "array",
+      "title": "The Properties Schema",
+      "items": {
+        "$id": "#/properties/properties/items",
+        "type": "object",
+        "title": "The Items Schema",
+        "required": [
+          "name",
+          "subtype",
+          "type",
+          "value"
+        ],
+        "properties": {
+          "name": {
+            "$id": "#/properties/properties/items/properties/name",
+            "type": "string",
+            "title": "The Name Schema",
+            "default": "",
+            "examples": [
+              "email"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "subtype": {
+            "$id": "#/properties/properties/items/properties/subtype",
+            "type": "string",
+            "title": "The Subtype Schema",
+            "default": "",
+            "examples": [
+              "home"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "type": {
+            "$id": "#/properties/properties/items/properties/type",
+            "type": "string",
+            "title": "The Type Schema",
+            "default": "",
+            "examples": [
+              "SYSTEM"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "value": {
+            "$id": "#/properties/properties/items/properties/value",
+            "type": "string",
+            "title": "The Value Schema",
+            "default": "",
+            "examples": [
+              "<VALUE>"
+            ],
+            "pattern": "^(.*)$"
+          }
+        }
+      }
+    },
+    "star_value": {
+      "$id": "#/properties/star_value",
+      "type": "integer",
+      "title": "The Star_value Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "tags": {
+      "$id": "#/properties/tags",
+      "type": "array",
+      "title": "The Tags Schema",
+      "items": {
+        "$id": "#/properties/tags/items",
+        "type": "string",
+        "title": "The Items Schema",
+        "default": "",
+        "examples": [
+          "<tag1>",
+          "<tag2>"
+        ],
+        "pattern": "^(.*)$"
+      }
+    },
+    "type": {
+      "$id": "#/properties/type",
+      "type": "string",
+      "title": "The Type Schema",
+      "default": "",
+      "examples": [
+        "PERSON"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "updated_time": {
+      "$id": "#/properties/updated_time",
+      "type": "integer",
+      "title": "The Updated_time Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "viewed_time": {
+      "$id": "#/properties/viewed_time",
+      "type": "integer",
+      "title": "The Viewed_time Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    }
+  }
+}

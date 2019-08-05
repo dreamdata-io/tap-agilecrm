@@ -1,0 +1,69 @@
+{
+  "apply_discount": false,
+  "archived": false,
+  "close_date": 1234567890,
+  "colorName": "WHITE",
+  "contact_ids": [
+    "1234567890123456"
+  ],
+  "contacts": [
+    {
+      "id": 1234567890123456,
+      "properties": [
+        {
+          "name": "name",
+          "type": "SYSTEM",
+          "value": "<NAME>"
+        }
+      ],
+      "type": "COMPANY"
+    },
+    {
+      "id": 1234567890123456,
+      "properties": [
+        {
+          "name": "first_name",
+          "type": "SYSTEM",
+          "value": "<VALUE>"
+        },
+        {
+          "name": "last_name",
+          "type": "SYSTEM",
+          "value": "<VALUE>"
+        }
+      ],
+      "type": "PERSON"
+    }
+  ],
+  "created_time": 1234567890,
+  "currency_conversion_value": 1.0,
+  "custom_data": [
+    {
+      "name": "<NAME>",
+      "value": "<VALUE>"
+    }
+  ],
+  "deal_source_id": 1234567890123456,
+  "description": "",
+  "discount_amt": 0.0,
+  "discount_type": "<VALUE>",
+  "discount_value": 0.0,
+  "entity_type": "deal",
+  "expected_value": 1.0,
+  "id": 1234567890123456,
+  "isCurrencyUpdateRequired": true,
+  "lost_reason_id": 0,
+  "milestone": "<MILESTONE>",
+  "milestone_changed_time": 1234567890,
+  "name": "<NAME>",
+  "note_created_time": 0,
+  "note_ids": [],
+  "notes": [],
+  "pipeline_id": 1234567890123456,
+  "probability": 0,
+  "products": [],
+  "tags": [],
+  "tagsWithTime": [],
+  "total_deal_value": 0.0,
+  "updated_time": 1234567890
+}
