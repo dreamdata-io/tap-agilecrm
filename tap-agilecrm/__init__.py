@@ -29,9 +29,8 @@ def main():
     process_contacts()
     process_deals()
 
-
 def process_companies(**kwargs):
-    return process_stream(
+    process_stream(
         stream_name = "company",
         stream_generator = client.list_companies(**kwargs),
         key_properties = ["id"],
@@ -70,8 +69,11 @@ def process_stream(
     singer.write_schema(stream_name, schema, key_properties, stream_alias)
 
     # write records
-    for record in stream_generator:
-        singer.write_record(stream_name, record, time_extracted=utils.now())
+    # instrument with metrics to allow consumers to receive progress
+    with singer.metrics.record_counter(stream_name or stream_alias) as counter:
+        for record in stream_generator:
+            singer.write_record(stream_name, record, time_extracted=utils.now())
+            counter.increment(1)
 
 if __name__ == "__main__":
     main()
