@@ -26,10 +26,14 @@
     "milestone",
     "milestone_changed_time",
     "name",
+    "note_created_time",
+    "note_ids",
+    "notes",
     "pipeline_id",
     "probability",
     "products",
     "tags",
+    "tagsWithTime",
     "total_deal_value",
     "updated_time"
   ],
@@ -68,8 +72,7 @@
       "default": "",
       "examples": [
         "WHITE"
-      ],
-      "pattern": "^(.*)$"
+      ]
     },
     "contact_ids": {
       "$id": "#/properties/contact_ids",
@@ -82,8 +85,7 @@
         "default": "",
         "examples": [
           "1234567890123456"
-        ],
-        "pattern": "^(.*)$"
+        ]
       }
     },
     "contacts": {
@@ -130,8 +132,7 @@
                   "default": "",
                   "examples": [
                     "name"
-                  ],
-                  "pattern": "^(.*)$"
+                  ]
                 },
                 "type": {
                   "$id": "#/properties/contacts/items/properties/properties/items/properties/type",
@@ -140,8 +141,7 @@
                   "default": "",
                   "examples": [
                     "SYSTEM"
-                  ],
-                  "pattern": "^(.*)$"
+                  ]
                 },
                 "value": {
                   "$id": "#/properties/contacts/items/properties/properties/items/properties/value",
@@ -149,9 +149,8 @@
                   "title": "The Value Schema",
                   "default": "",
                   "examples": [
-                    "Stylepit"
-                  ],
-                  "pattern": "^(.*)$"
+                    "<NAME>"
+                  ]
                 }
               }
             }
@@ -163,8 +162,7 @@
             "default": "",
             "examples": [
               "COMPANY"
-            ],
-            "pattern": "^(.*)$"
+            ]
           }
         }
       }
@@ -180,7 +178,7 @@
     },
     "currency_conversion_value": {
       "$id": "#/properties/currency_conversion_value",
-      "type": "number",
+      "type": "integer",
       "title": "The Currency_conversion_value Schema",
       "default": 0,
       "examples": [
@@ -207,8 +205,7 @@
             "default": "",
             "examples": [
               "<NAME>"
-            ],
-            "pattern": "^(.*)$"
+            ]
           },
           "value": {
             "$id": "#/properties/custom_data/items/properties/value",
@@ -217,8 +214,7 @@
             "default": "",
             "examples": [
               "<VALUE>"
-            ],
-            "pattern": "^(.*)$"
+            ]
           }
         }
       }
@@ -232,9 +228,18 @@
         1234567890123456
       ]
     },
+    "description": {
+      "$id": "#/properties/description",
+      "type": "string",
+      "title": "The Description Schema",
+      "default": "",
+      "examples": [
+        ""
+      ]
+    },
     "discount_amt": {
       "$id": "#/properties/discount_amt",
-      "type": "number",
+      "type": "integer",
       "title": "The Discount_amt Schema",
       "default": 0,
       "examples": [
@@ -247,13 +252,12 @@
       "title": "The Discount_type Schema",
       "default": "",
       "examples": [
-        "Value"
-      ],
-      "pattern": "^(.*)$"
+        "<VALUE>"
+      ]
     },
     "discount_value": {
       "$id": "#/properties/discount_value",
-      "type": "number",
+      "type": "integer",
       "title": "The Discount_value Schema",
       "default": 0,
       "examples": [
@@ -267,12 +271,11 @@
       "default": "",
       "examples": [
         "deal"
-      ],
-      "pattern": "^(.*)$"
+      ]
     },
     "expected_value": {
       "$id": "#/properties/expected_value",
-      "type": "number",
+      "type": "integer",
       "title": "The Expected_value Schema",
       "default": 0,
       "examples": [
@@ -312,9 +315,8 @@
       "title": "The Milestone Schema",
       "default": "",
       "examples": [
-        "Lost"
-      ],
-      "pattern": "^(.*)$"
+        "<MILESTONE>"
+      ]
     },
     "milestone_changed_time": {
       "$id": "#/properties/milestone_changed_time",
@@ -331,9 +333,27 @@
       "title": "The Name Schema",
       "default": "",
       "examples": [
-        "<DEAL_NAME>"
-      ],
-      "pattern": "^(.*)$"
+        "<NAME>"
+      ]
+    },
+    "note_created_time": {
+      "$id": "#/properties/note_created_time",
+      "type": "integer",
+      "title": "The Note_created_time Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "note_ids": {
+      "$id": "#/properties/note_ids",
+      "type": "array",
+      "title": "The Note_ids Schema"
+    },
+    "notes": {
+      "$id": "#/properties/notes",
+      "type": "array",
+      "title": "The Notes Schema"
     },
     "pipeline_id": {
       "$id": "#/properties/pipeline_id",
@@ -370,13 +390,66 @@
         "examples": [
           "<tag1>",
           "<tag2>"
+        ]
+      }
+    },
+    "tagsWithTime": {
+      "$id": "#/properties/tagsWithTime",
+      "type": "array",
+      "title": "The Tagswithtime Schema",
+      "items": {
+        "$id": "#/properties/tagsWithTime/items",
+        "type": "object",
+        "title": "The Items Schema",
+        "required": [
+          "tag",
+          "createdTime",
+          "availableCount",
+          "entity_type"
         ],
-        "pattern": "^(.*)$"
+        "properties": {
+          "tag": {
+            "$id": "#/properties/tagsWithTime/items/properties/tag",
+            "type": "string",
+            "title": "The Tag Schema",
+            "default": "",
+            "examples": [
+              "<tag1>"
+            ]
+          },
+          "createdTime": {
+            "$id": "#/properties/tagsWithTime/items/properties/createdTime",
+            "type": "integer",
+            "title": "The Createdtime Schema",
+            "default": 0,
+            "examples": [
+              1234567890
+            ]
+          },
+          "availableCount": {
+            "$id": "#/properties/tagsWithTime/items/properties/availableCount",
+            "type": "integer",
+            "title": "The Availablecount Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "entity_type": {
+            "$id": "#/properties/tagsWithTime/items/properties/entity_type",
+            "type": "string",
+            "title": "The Entity_type Schema",
+            "default": "",
+            "examples": [
+              "tag"
+            ]
+          }
+        }
       }
     },
     "total_deal_value": {
       "$id": "#/properties/total_deal_value",
-      "type": "number",
+      "type": "integer",
       "title": "The Total_deal_value Schema",
       "default": 0,
       "examples": [

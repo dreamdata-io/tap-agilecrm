@@ -79,8 +79,7 @@
       "default": "",
       "examples": [
         "company_entity"
-      ],
-      "pattern": "^(.*)$"
+      ]
     },
     "formId": {
       "$id": "#/properties/formId",
@@ -143,8 +142,7 @@
       "default": "",
       "examples": [
         ""
-      ],
-      "pattern": "^(.*)$"
+      ]
     },
     "last_called": {
       "$id": "#/properties/last_called",
@@ -241,8 +239,7 @@
           "default": "",
           "examples": [
             "<URL>"
-          ],
-          "pattern": "^(.*)$"
+          ]
         },
         "calendar_url": {
           "$id": "#/properties/owner/properties/calendar_url",
@@ -251,8 +248,7 @@
           "default": "",
           "examples": [
             "<URL>"
-          ],
-          "pattern": "^(.*)$"
+          ]
         },
         "domain": {
           "$id": "#/properties/owner/properties/domain",
@@ -261,8 +257,7 @@
           "default": "",
           "examples": [
             "<DOMAIN>"
-          ],
-          "pattern": "^(.*)$"
+          ]
         },
         "email": {
           "$id": "#/properties/owner/properties/email",
@@ -271,8 +266,7 @@
           "default": "",
           "examples": [
             "<EMAIL_EXAMPLE>"
-          ],
-          "pattern": "^(.*)$"
+          ]
         },
         "id": {
           "$id": "#/properties/owner/properties/id",
@@ -290,8 +284,7 @@
           "default": "",
           "examples": [
             "<OWNER_NAME>"
-          ],
-          "pattern": "^(.*)$"
+          ]
         },
         "phone": {
           "$id": "#/properties/owner/properties/phone",
@@ -300,8 +293,7 @@
           "default": "",
           "examples": [
             "<OWNER_PHONE>"
-          ],
-          "pattern": "^(.*)$"
+          ]
         },
         "pic": {
           "$id": "#/properties/owner/properties/pic",
@@ -310,8 +302,7 @@
           "default": "",
           "examples": [
             "<URI>"
-          ],
-          "pattern": "^(.*)$"
+          ]
         },
         "schedule_id": {
           "$id": "#/properties/owner/properties/schedule_id",
@@ -320,8 +311,7 @@
           "default": "",
           "examples": [
             "<SCHEDULE_ID>"
-          ],
-          "pattern": "^(.*)$"
+          ]
         }
       }
     },
@@ -346,8 +336,7 @@
             "default": "",
             "examples": [
               "<name>"
-            ],
-            "pattern": "^(.*)$"
+            ]
           },
           "type": {
             "$id": "#/properties/properties/items/properties/type",
@@ -356,8 +345,7 @@
             "default": "",
             "examples": [
               "SYSTEM"
-            ],
-            "pattern": "^(.*)$"
+            ]
           },
           "subtype": {
             "$id": "#/properties/properties/items/properties/subtype",
@@ -366,8 +354,7 @@
             "default": "",
             "examples": [
               "<SUBTYPE>"
-            ],
-            "pattern": "^(.*)$"
+            ]
           },
           "value": {
             "$id": "#/properties/properties/items/properties/value",
@@ -376,8 +363,7 @@
             "default": "",
             "examples": [
               "<VALUE>"
-            ],
-            "pattern": "^(.*)$"
+            ]
           }
         }
       }
@@ -412,8 +398,7 @@
         "examples": [
           "<tag1>",
           "<tag2>"
-        ],
-        "pattern": "^(.*)$"
+        ]
       }
     },
     "tagsWithTime": {
@@ -438,8 +423,7 @@
             "default": "",
             "examples": [
               "<tag1>"
-            ],
-            "pattern": "^(.*)$"
+            ]
           },
           "createdTime": {
             "$id": "#/properties/tagsWithTime/items/properties/createdTime",
@@ -466,8 +450,7 @@
             "default": "",
             "examples": [
               "tag"
-            ],
-            "pattern": "^(.*)$"
+            ]
           }
         }
       }
@@ -488,8 +471,7 @@
       "default": "",
       "examples": [
         "COMPANY"
-      ],
-      "pattern": "^(.*)$"
+      ]
     },
     "unsubscribeStatus": {
       "$id": "#/properties/unsubscribeStatus",
