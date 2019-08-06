@@ -30,7 +30,6 @@ def main():
         print(json.dumps(discover_stream, sort_keys=True, indent="  "))
         return
 
-
     process_companies()
     process_contacts()
     process_deals()
@@ -59,7 +58,6 @@ def process_deals(**kwargs):
         bookmark_properties = ["updated_time"],
     )
 
-
 def process_stream(
     stream_name: str,
     stream_generator: Generator[Dict[str, Any], None, None],
@@ -75,7 +73,6 @@ def process_stream(
     singer.write_schema(stream_name, schema, key_properties, stream_alias)
 
     # write records
-    # instrument with metrics to allow consumers to receive progress
     with singer.metrics.record_counter(stream_name or stream_alias) as counter:
         for record in stream_generator:
             if include_fields:
@@ -85,9 +82,12 @@ def process_stream(
                         continue
                     record.pop(key)
 
+            # write record with timestamp
             singer.write_record(stream_name, record, time_extracted=utils.now())
-
+            
+            # instrument with metrics to allow consumers to receive progress
             counter.increment(1)
+
 
 def load_schema(stream_name):
     with open(f"schemas/{stream_name}_schema.json", "r") as fp:
