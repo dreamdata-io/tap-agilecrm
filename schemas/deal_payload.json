@@ -62,8 +62,18 @@
   "pipeline_id": 1234567890123456,
   "probability": 0,
   "products": [],
-  "tags": [],
-  "tagsWithTime": [],
+  "tags": [
+    "<tag1>",
+    "<tag2>"
+  ],
+  "tagsWithTime": [
+    {
+      "tag": "<tag1>",
+      "createdTime": 1234567890,
+      "availableCount": 0,
+      "entity_type": "tag"
+    }
+  ],
   "total_deal_value": 0.0,
   "updated_time": 1234567890
 }
