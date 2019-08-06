@@ -5,9 +5,17 @@
   "type": "object",
   "title": "The Root Schema",
   "required": [
+    "browserId",
+    "campaignStatus",
+    "concurrent_save_allowed",
     "created_time",
+    "emailBounceStatus",
     "entity_type",
+    "formId",
     "id",
+    "is_client_import",
+    "is_duplicate_existed",
+    "is_duplicate_verification_failed",
     "is_lead_converted",
     "klout_score",
     "last_called",
@@ -18,16 +26,38 @@
     "lead_score",
     "lead_source_id",
     "lead_status_id",
-    "owner",
     "properties",
+    "restored_time",
     "star_value",
     "tags",
+    "tagsWithTime",
     "trashed_time",
     "type",
+    "unsubscribeStatus",
     "updated_time",
+    "viewed",
     "viewed_time"
   ],
   "properties": {
+    "browserId": {
+      "$id": "#/properties/browserId",
+      "type": "array",
+      "title": "The Browserid Schema"
+    },
+    "campaignStatus": {
+      "$id": "#/properties/campaignStatus",
+      "type": "array",
+      "title": "The Campaignstatus Schema"
+    },
+    "concurrent_save_allowed": {
+      "$id": "#/properties/concurrent_save_allowed",
+      "type": "boolean",
+      "title": "The Concurrent_save_allowed Schema",
+      "default": false,
+      "examples": [
+        true
+      ]
+    },
     "created_time": {
       "$id": "#/properties/created_time",
       "type": "integer",
@@ -36,6 +66,11 @@
       "examples": [
         1234567890
       ]
+    },
+    "emailBounceStatus": {
+      "$id": "#/properties/emailBounceStatus",
+      "type": "array",
+      "title": "The Emailbouncestatus Schema"
     },
     "entity_type": {
       "$id": "#/properties/entity_type",
@@ -47,6 +82,15 @@
       ],
       "pattern": "^(.*)$"
     },
+    "formId": {
+      "$id": "#/properties/formId",
+      "type": "integer",
+      "title": "The Formid Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
     "id": {
       "$id": "#/properties/id",
       "type": "integer",
@@ -54,6 +98,33 @@
       "default": 0,
       "examples": [
         1234567890123456
+      ]
+    },
+    "is_client_import": {
+      "$id": "#/properties/is_client_import",
+      "type": "boolean",
+      "title": "The Is_client_import Schema",
+      "default": false,
+      "examples": [
+        false
+      ]
+    },
+    "is_duplicate_existed": {
+      "$id": "#/properties/is_duplicate_existed",
+      "type": "boolean",
+      "title": "The Is_duplicate_existed Schema",
+      "default": false,
+      "examples": [
+        false
+      ]
+    },
+    "is_duplicate_verification_failed": {
+      "$id": "#/properties/is_duplicate_verification_failed",
+      "type": "boolean",
+      "title": "The Is_duplicate_verification_failed Schema",
+      "default": false,
+      "examples": [
+        false
       ]
     },
     "is_lead_converted": {
@@ -311,6 +382,15 @@
         }
       }
     },
+    "restored_time": {
+      "$id": "#/properties/restored_time",
+      "type": "integer",
+      "title": "The Restored_time Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
     "star_value": {
       "$id": "#/properties/star_value",
       "type": "integer",
@@ -336,6 +416,62 @@
         "pattern": "^(.*)$"
       }
     },
+    "tagsWithTime": {
+      "$id": "#/properties/tagsWithTime",
+      "type": "array",
+      "title": "The Tagswithtime Schema",
+      "items": {
+        "$id": "#/properties/tagsWithTime/items",
+        "type": "object",
+        "title": "The Items Schema",
+        "required": [
+          "tag",
+          "createdTime",
+          "availableCount",
+          "entity_type"
+        ],
+        "properties": {
+          "tag": {
+            "$id": "#/properties/tagsWithTime/items/properties/tag",
+            "type": "string",
+            "title": "The Tag Schema",
+            "default": "",
+            "examples": [
+              "<tag1>"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "createdTime": {
+            "$id": "#/properties/tagsWithTime/items/properties/createdTime",
+            "type": "integer",
+            "title": "The Createdtime Schema",
+            "default": 0,
+            "examples": [
+              1234567890
+            ]
+          },
+          "availableCount": {
+            "$id": "#/properties/tagsWithTime/items/properties/availableCount",
+            "type": "integer",
+            "title": "The Availablecount Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "entity_type": {
+            "$id": "#/properties/tagsWithTime/items/properties/entity_type",
+            "type": "string",
+            "title": "The Entity_type Schema",
+            "default": "",
+            "examples": [
+              "tag"
+            ],
+            "pattern": "^(.*)$"
+          }
+        }
+      }
+    },
     "trashed_time": {
       "$id": "#/properties/trashed_time",
       "type": "integer",
@@ -355,6 +491,11 @@
       ],
       "pattern": "^(.*)$"
     },
+    "unsubscribeStatus": {
+      "$id": "#/properties/unsubscribeStatus",
+      "type": "array",
+      "title": "The Unsubscribestatus Schema"
+    },
     "updated_time": {
       "$id": "#/properties/updated_time",
       "type": "integer",
@@ -363,6 +504,25 @@
       "examples": [
         0
       ]
+    },
+    "viewed": {
+      "$id": "#/properties/viewed",
+      "type": "object",
+      "title": "The Viewed Schema",
+      "required": [
+        "viewed_time"
+      ],
+      "properties": {
+        "viewed_time": {
+          "$id": "#/properties/viewed/properties/viewed_time",
+          "type": "integer",
+          "title": "The Viewed_time Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        }
+      }
     },
     "viewed_time": {
       "$id": "#/properties/viewed_time",

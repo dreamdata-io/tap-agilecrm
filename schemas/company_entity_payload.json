@@ -37,12 +37,27 @@
       "type": "SYSTEM",
       "subtype": "<SUBTYPE>",
       "value": "<VALUE>"
+    },
+    {
+      "name": "<name>",
+      "type": "SYSTEM",
+      "value": "<VALUE>"
     }
   ],
   "restored_time": 0,
   "star_value": 0,
-  "tags": [],
-  "tagsWithTime": [],
+  "tags": [
+    "<tag1>",
+    "<tag2>"
+  ],
+  "tagsWithTime": [
+    {
+      "tag": "<tag1>",
+      "createdTime": 1234567890,
+      "availableCount": 0,
+      "entity_type": "tag"
+    }
+  ],
   "trashed_time": 0,
   "type": "COMPANY",
   "unsubscribeStatus": [],
