@@ -144,7 +144,7 @@ def process_stream(
 
             # write record with timestamp
             singer.write_record(stream_name, record, time_extracted=utils.now())
-            
+
             # instrument with metrics to allow consumers to receive progress
             counter.increment(1)
 
@@ -156,29 +156,39 @@ def process_stream(
 
     return singer.write_bookmark(state, stream_name, "updated_time", most_recent_update)
 
+
 def load_schema(stream_name):
     with open(f"schemas/{stream_name}_schema.json", "r") as fp:
         return json.load(fp)
+
 
 def write_record(record, include_fields):
     entity_type = record["entity_type"]
     with open(f"schemas/{entity_type}_payload.json", "w") as fp:
         json.dump(record, fp, sort_keys=True, indent="  ")
-    
+
     keys = list(record.keys())
     for key in keys:
         if key in include_fields:
             continue
         record.pop(key)
-    
+
     with open(f"schemas/{entity_type}_filtered.json", "w") as fp:
         json.dump(record, fp, sort_keys=True, indent="  ")
 
+
 def discover():
     stream_names = ["company_entity", "contact_entity", "deal"]
-    streams = [{"tap_stream_id": stream_name, "stream": stream_name, "schema": load_schema(stream_name)} for stream_name in stream_names]
+    streams = [
+        {
+            "tap_stream_id": stream_name,
+            "stream": stream_name,
+            "schema": load_schema(stream_name),
+        }
+        for stream_name in stream_names
+    ]
     return {"streams": streams}
-    
+
 
 if __name__ == "__main__":
     main()
