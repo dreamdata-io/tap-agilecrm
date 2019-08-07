@@ -4,7 +4,6 @@ import json
 import os
 import sys
 from datetime import datetime
-from typing import Any, Dict, Generator, List, Set
 
 import singer
 from singer import utils
@@ -30,41 +29,69 @@ def main():
         print(json.dumps(discover_stream, sort_keys=True, indent="  "))
         return
 
-    process_companies()
-    process_contacts()
-    process_deals()
+    state = args.state
 
-def process_companies(**kwargs):
-    process_stream(
-        stream_name = "company_entity",
-        stream_generator = client.list_companies(**kwargs),
-        key_properties = ["id"],
-        bookmark_properties = ["updated_time"],
-    )
+    streams = [process_companies, process_contacts, process_deals]
 
-def process_contacts(**kwargs):
-    process_stream(
-        stream_name = "contact_entity",
-        stream_generator = client.list_contacts(**kwargs),
-        key_properties = ["id"],
-        bookmark_properties = ["updated_time"],
-    )
+    for stream in streams:
+        stream(state)
+        singer.write_state(state)
 
-def process_deals(**kwargs):
+
+def process_companies(state):
+    stream_name = "company_entity"
+
+    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
+
+    logger.info(f"streaming {stream_name}: initiated")
     process_stream(
-        stream_name = "deal", # no '_entity' suffix here
-        stream_generator = client.list_deals(**kwargs),
-        key_properties = ["id"],
-        bookmark_properties = ["updated_time"],
+        state,
+        stream_name=stream_name,
+        stream_generator=client.list_companies_dynamic(checkpoint=checkpoint),
+        key_properties=["id"],
+        bookmark_properties=["updated_time"],
     )
+    logger.info(f"streaming {stream_name}: done")
+
+
+def process_contacts(state):
+    stream_name = "contact_entity"
+
+    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
+
+    logger.info(f"streaming {stream_name}: initiated")
+    process_stream(
+        state,
+        stream_name=stream_name,
+        stream_generator=client.list_contacts_dynamic(checkpoint=checkpoint),
+        key_properties=["id"],
+        bookmark_properties=["updated_time"],
+    )
+    logger.info(f"streaming {stream_name}: done")
+
+
+def process_deals(state):
+    stream_name = "deal"  # no '_entity' suffix here
+
+    logger.info(f"streaming {stream_name}: initiated")
+    process_stream(
+        state,
+        stream_name=stream_name,
+        stream_generator=client.list_deals(),
+        key_properties=["id"],
+        bookmark_properties=["updated_time"],
+    )
+    logger.info(f"streaming {stream_name}: done")
+
 
 def process_stream(
-    stream_name: str,
-    stream_generator: Generator[Dict[str, Any], None, None],
-    key_properties: List[str],
-    bookmark_properties: str = None,
-    stream_alias: str = None,
-    include_fields: Set[str] = None,
+    state,
+    stream_name,
+    stream_generator,
+    key_properties,
+    bookmark_properties=None,
+    stream_alias=None,
+    include_fields=None,
 ):
     # load schema from disk
     schema = load_schema(stream_name)
