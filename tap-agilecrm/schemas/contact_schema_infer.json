@@ -98,26 +98,18 @@
     },
     "tags": {
       "type": [
-        "null",
         "array"
       ],
       "items": {
-        "type": [
-          "null",
-          "string"
-        ]
+        "type": "string"
       }
     },
     "tagsWithTime": {
       "type": [
-        "null",
         "array"
       ],
       "items": {
-        "type": [
-          "null",
-          "object"
-        ],
+        "type": "object",
         "properties": {
           "tag": {
             "type": [
@@ -148,14 +140,10 @@
     },
     "properties": {
       "type": [
-        "null",
         "array"
       ],
       "items": {
-        "type": [
-          "null",
-          "object"
-        ],
+        "type": "object",
         "properties": {
           "type": {
             "type": [
