@@ -34,18 +34,30 @@ def main():
 
     state = args.state
 
-    streams = [process_companies, process_contacts, process_deals]
+    streams = {
+        "contact": process_contacts,
+        "company": process_companies,
+        "deal": process_deals,
+    }
 
-    for stream in streams:
-        stream(state, CONFIG)
-        singer.write_state(state)
+    for stream_name in CONFIG.keys():
+        if stream_name not in streams:
+            logger.error(
+                f"stream name: '{stream_name}' is unsupported. Supported streams: {streams.keys()}"
+            )
+            sys.exit(1)
+
+        stream_processor = streams[stream_name]
+        stream_config = CONFIG.get(stream_name, {})
+
+        stream_processor(state, stream_config)
 
 
 def process_companies(state, config):
     stream_name = "company"
 
     checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
-    exclude_fields = config.get(stream_name, {}).get("exclude_fields")
+    exclude_fields = config.get("exclude_fields")
 
     logger.info(f"streaming {stream_name}: initiated")
     process_stream(
@@ -63,7 +75,7 @@ def process_contacts(state, config):
     stream_name = "contact"
 
     checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
-    exclude_fields = config.get(stream_name, {}).get("exclude_fields")
+    exclude_fields = config.get("exclude_fields")
 
     logger.info(f"streaming {stream_name}: initiated")
     process_stream(
@@ -80,7 +92,7 @@ def process_contacts(state, config):
 def process_deals(state, config):
     stream_name = "deal"
 
-    exclude_fields = config.get(stream_name, {}).get("exclude_fields")
+    exclude_fields = config.get("exclude_fields")
 
     logger.info(f"streaming {stream_name}: initiated")
     process_stream(
