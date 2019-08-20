@@ -20,6 +20,9 @@ EMAIL = args.config.get("email")
 DOMAIN = args.config.get("domain")
 API_KEY = args.config.get("api_key")
 
+# optional configuration options
+CONFIG = args.config.get("config")
+
 client = AgileCRM(EMAIL, DOMAIN, API_KEY)
 
 
@@ -34,14 +37,15 @@ def main():
     streams = [process_companies, process_contacts, process_deals]
 
     for stream in streams:
-        stream(state)
+        stream(state, CONFIG)
         singer.write_state(state)
 
 
-def process_companies(state):
-    stream_name = "company_entity"
+def process_companies(state, config):
+    stream_name = "company"
 
     checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
+    exclude_fields = config.get(stream_name, {}).get("exclude_fields")
 
     logger.info(f"streaming {stream_name}: initiated")
     process_stream(
@@ -50,14 +54,16 @@ def process_companies(state):
         stream_generator=client.list_companies_dynamic(checkpoint=checkpoint),
         key_properties=["id"],
         bookmark_properties=["updated_time"],
+        exclude_fields=exclude_fields,
     )
     logger.info(f"streaming {stream_name}: done")
 
 
-def process_contacts(state):
-    stream_name = "contact_entity"
+def process_contacts(state, config):
+    stream_name = "contact"
 
     checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
+    exclude_fields = config.get(stream_name, {}).get("exclude_fields")
 
     logger.info(f"streaming {stream_name}: initiated")
     process_stream(
@@ -66,12 +72,15 @@ def process_contacts(state):
         stream_generator=client.list_contacts_dynamic(checkpoint=checkpoint),
         key_properties=["id"],
         bookmark_properties=["updated_time"],
+        exclude_fields=exclude_fields,
     )
     logger.info(f"streaming {stream_name}: done")
 
 
-def process_deals(state):
-    stream_name = "deal"  # no '_entity' suffix here
+def process_deals(state, config):
+    stream_name = "deal"
+
+    exclude_fields = config.get(stream_name, {}).get("exclude_fields")
 
     logger.info(f"streaming {stream_name}: initiated")
     process_stream(
@@ -80,6 +89,7 @@ def process_deals(state):
         stream_generator=client.list_deals(),
         key_properties=["id"],
         bookmark_properties=["updated_time"],
+        exclude_fields=exclude_fields,
     )
     logger.info(f"streaming {stream_name}: done")
 
@@ -91,7 +101,7 @@ def process_stream(
     key_properties,
     bookmark_properties=None,
     stream_alias=None,
-    include_fields=None,
+    exclude_fields=None,
 ):
     # load schema from disk
     schema = load_schema(stream_name)
@@ -121,13 +131,10 @@ def process_stream(
             if stream_state and stream_state > updated_time:
                 continue
 
-            # remove fields that are not in the include_fields
-            if include_fields:
-                keys = list(record.keys())
-                for key in keys:
-                    if key in include_fields:
-                        continue
-                    record.pop(key)
+            # remove fields that are in the exclude_fields argument
+            if exclude_fields:
+                for field in exclude_fields:
+                    record.pop(field, None)
 
             # only applicable in the first iteration
             if not previous_updated_time:
