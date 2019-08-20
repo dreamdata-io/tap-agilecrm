@@ -17,7 +17,31 @@ The `tap_agilecrm` requires the following three configurations to operate:
 {
     "api_key": "API_TOKEN_FOR_DOMAIN",
     "email": "EMAIL_ASSOCIATED_WITH_THE_TOKEN",
-    "domain": "DOMAIN_ASSOCIATED_WITH_COMPANY"
+    "domain": "DOMAIN_ASSOCIATED_WITH_COMPANY",
+    "config": {
+        "contact": {
+            "exclude_fields": [
+                "browserId",
+                "emailBounceStatus",
+                "is_duplicate_existed",
+                "is_duplicate_verification_failed",
+                "unsubscribeStatus",
+                "campaignStatus"
+            ]
+        },
+        "deal": {
+            "exclude_fields": [
+                "colorName",
+                "note_ids",
+                "notes"
+            ]
+        },
+        "company": {
+            "exclude_fields": [
+                "concurrent_save_allowed"
+            ]
+        }
+    }
 }
 
 ```
