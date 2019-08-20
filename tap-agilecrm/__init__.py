@@ -169,21 +169,6 @@ def load_schema(stream_name):
         return json.load(fp)
 
 
-def write_record(record, include_fields):
-    entity_type = record["entity_type"]
-    with open(f"schemas/{entity_type}_payload.json", "w") as fp:
-        json.dump(record, fp, sort_keys=True, indent="  ")
-
-    keys = list(record.keys())
-    for key in keys:
-        if key in include_fields:
-            continue
-        record.pop(key)
-
-    with open(f"schemas/{entity_type}_filtered.json", "w") as fp:
-        json.dump(record, fp, sort_keys=True, indent="  ")
-
-
 def discover():
     stream_names = ["company_entity", "contact_entity", "deal"]
     streams = [
