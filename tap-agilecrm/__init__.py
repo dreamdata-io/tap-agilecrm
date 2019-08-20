@@ -110,8 +110,7 @@ def process_stream(
     singer.write_schema(stream_name, schema, key_properties, stream_alias)
 
     stream_state = singer.get_bookmark(state, stream_name, "updated_time")
-    most_recent_update = stream_state or None
-    previous_updated_time = None
+    last_updated_time = None
 
     # write records
     with singer.metrics.record_counter(stream_name or stream_alias) as counter:
@@ -127,7 +126,8 @@ def process_stream(
                 # logger.info(f"added timestamp: {created_time}")
                 record["updated_time"] = created_time
 
-            # do not write records that are older than the most recent updated_time from the state
+            # do not write records that are older than the most recent updated_time
+            # from the optional state
             if stream_state and stream_state > updated_time:
                 continue
 
@@ -136,32 +136,21 @@ def process_stream(
                 for field in exclude_fields:
                     record.pop(field, None)
 
-            # only applicable in the first iteration
-            if not previous_updated_time:
-                previous_updated_time = updated_time
-
-            # alert when item is out of order
-            if previous_updated_time and previous_updated_time > updated_time:
+            # write warning if the current record is newer then the previous record
+            if last_updated_time and last_updated_time < updated_time:
                 logger.warning(
                     f"{i}: item id={record_id} out of order updated_time={updated_time}"
                 )
-            # only update previous_update_time when it is in-order
-            else:
-                previous_updated_time = updated_time
 
-            # write record with timestamp
+            last_updated_time = updated_time
+
+            # write record with extracted timestamp
             singer.write_record(stream_name, record, time_extracted=utils.now())
 
-            # instrument with metrics to allow consumers to receive progress
+            # instrument with metrics to allow targets to receive progress
             counter.increment(1)
 
-            # only relevant for the first iteration
-            if not most_recent_update:
-                most_recent_update = updated_time
-            elif most_recent_update < updated_time:
-                most_recent_update = updated_time
-
-    return singer.write_bookmark(state, stream_name, "updated_time", most_recent_update)
+    return singer.write_bookmark(state, stream_name, "updated_time", last_updated_time)
 
 
 def load_schema(stream_name):
