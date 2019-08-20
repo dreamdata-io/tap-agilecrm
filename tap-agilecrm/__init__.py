@@ -171,7 +171,7 @@ def load_schema(stream_name):
 
 
 def discover():
-    stream_names = ["company_entity", "contact_entity", "deal"]
+    stream_names = ["company", "contact", "deal"]
     streams = [
         {
             "tap_stream_id": stream_name,
