@@ -40,7 +40,7 @@ def main():
         "deal": process_deals,
     }
 
-    for stream_name in CONFIG.keys():
+    for stream_name in sorted(CONFIG.keys()):
         if stream_name not in streams:
             logger.error(
                 f"stream name: '{stream_name}' is unsupported. Supported streams: {streams.keys()}"
