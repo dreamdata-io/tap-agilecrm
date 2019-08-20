@@ -166,7 +166,7 @@ def process_stream(
 
 
 def load_schema(stream_name):
-    with open(f"schemas/{stream_name}_schema.json", "r") as fp:
+    with open(f"schemas/{stream_name}_schema_infer.json", "r") as fp:
         return json.load(fp)
 
 
