@@ -1,4 +1,5 @@
 from requests import Session
+import json
 
 
 class AgileCRM:
@@ -20,27 +21,48 @@ class AgileCRM:
 
         self.base_url = f"https://{domain}.agilecrm.com/dev/api/"
 
-    def list_deals(self, **kwargs):
-        yield from self.paginate("GET", "opportunity", **kwargs)
-
-    def list_contacts(self, **kwargs):
-        yield from self.paginate("POST", "contacts/list", **kwargs)
-
-    def list_companies(self, **kwargs):
-        yield from self.paginate("POST", "contacts/companies/list", **kwargs)
-
-    def paginate(self, method, path, page_size=None, global_sort_key=None, **kwargs):
+    def list_deals(self, page_size=None, global_sort_key=None, **kwargs):
         args = {
             "page_size": page_size or self.pagination_page_size,
-            "global_sort_key": global_sort_key or self.pagination_global_sort_key,
+            "global_sort_key": "-created_time",  # global_sort_key or self.pagination_global_sort_key,
         }
+        yield from self.__paginate("GET", "opportunity", params=args, **kwargs)
 
-        if method == "GET":
-            kwargs["params"] = args
-        else:
-            kwargs["data"] = args
+    def list_companies_dynamic(
+        self, page_size=None, global_sort_key=None, checkpoint=None, **kwargs
+    ):
+        filterJson = {"contact_type": "COMPANY"}
+        if checkpoint:
+            filterJson["rules"] = [
+                {"LHS": "updated_time", "CONDITION": "IS BEFORE", "RHS": checkpoint}
+            ]
 
-        yield from self.__paginate(method, path, **kwargs)
+        args = {
+            "page_size": page_size or self.pagination_page_size,
+            "global_sort_key": "-updated_time",
+            "filterJson": json.dumps(filterJson),
+        }
+        yield from self.__paginate(
+            "POST", "filters/filter/dynamic-filter", data=args, **kwargs
+        )
+
+    def list_contacts_dynamic(
+        self, page_size=None, global_sort_key=None, checkpoint=None, **kwargs
+    ):
+        filterJson = {"contact_type": "PERSON"}
+        if checkpoint:
+            filterJson["rules"] = [
+                {"LHS": "updated_time", "CONDITION": "IS AFTER", "RHS": checkpoint}
+            ]
+
+        args = {
+            "page_size": page_size or self.pagination_page_size,
+            "global_sort_key": "-updated_time",  # global_sort_key or self.pagination_global_sort_key,
+            "filterJson": json.dumps(filterJson),
+        }
+        yield from self.__paginate(
+            "POST", "filters/filter/dynamic-filter", data=args, **kwargs
+        )
 
     def __paginate(self, method, path, data=None, params=None, **kwargs):
         """paginates over items with a trailing item containing a cursor and passes arguments as either 'data' or 'params' depending on method"""
