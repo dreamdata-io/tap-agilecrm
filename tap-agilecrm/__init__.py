@@ -142,6 +142,7 @@ def process_stream(
 
     stream_state = singer.get_bookmark(state, stream_name, "updated_time")
     last_updated_time = None
+    most_recent_update = stream_state or None
 
     # write records
     with singer.metrics.record_counter(stream_name or stream_alias) as counter:
@@ -176,11 +177,20 @@ def process_stream(
 
             # write record with extracted timestamp
             singer.write_record(stream_name, record, time_extracted=utils.now())
+            
+            # applies to the first iteration
+            if not most_recent_update:
+                most_recent_update = updated_time
+
+            if most_recent_update < updated_time:
+                most_recent_update = updated_time
 
             # instrument with metrics to allow targets to receive progress
             counter.increment(1)
 
-    return singer.write_bookmark(state, stream_name, "updated_time", last_updated_time)
+    stream_state = most_recent_update if most_recent_update > stream_state else stream_state
+
+    return singer.write_bookmark(state, stream_name, "updated_time", stream_state)
 
 
 def load_schema(stream_name):
