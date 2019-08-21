@@ -191,11 +191,10 @@ def process_stream(
                 # assumingly if the record has never been updated
                 if updated_time == 0:
                     record["updated_time"] = created_time
-                    updated_time = created_time
 
                 # do not write records that are older than the most recent updated_time
                 # from the optional state
-                if stream_state and stream_state > updated_time:
+                if stream_state and stream_state > updated_time and stream_state > created_time:
                     continue
 
                 # remove fields that are in the exclude_fields argument
