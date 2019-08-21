@@ -8,7 +8,7 @@ from datetime import datetime
 import singer
 from singer import utils
 
-from agilecrm_client import AgileCRM
+from tap_agilecrm.agilecrm_client import AgileCRM
 
 logger = singer.get_logger()
 
