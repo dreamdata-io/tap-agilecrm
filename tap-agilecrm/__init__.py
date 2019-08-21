@@ -154,7 +154,6 @@ def process_stream(
             created_time = record["created_time"]
             record_id = record["id"]
             if updated_time == 0:
-                # logger.info(f"added timestamp: {created_time}")
                 record["updated_time"] = created_time
 
             # do not write records that are older than the most recent updated_time
