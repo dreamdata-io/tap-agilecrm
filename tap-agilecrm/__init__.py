@@ -65,15 +65,26 @@ def process_companies(state, config):
     exclude_fields = config.get("exclude_fields")
     if exclude_fields:
         logger.info(f"- ignoring fields: {exclude_fields}")
+    
+    sample_size = config.get("sample_size")
+    if sample_size:
+        logger.info(f"- sample_size: {sample_size}")
 
     process_stream(
         state,
         stream_name=stream_name,
-        stream_generator=client.list_companies_dynamic(checkpoint=checkpoint),
+        stream_generator=client.list_companies_dynamic(
+            checkpoint=checkpoint, global_sort_key="updated_time"
+        ),
         key_properties=["id"],
         bookmark_properties=["updated_time"],
         exclude_fields=exclude_fields,
+        sample_size=sample_size,
     )
+    logger.info(f"emitting state: {state}")
+
+    singer.write_state(state)
+
     logger.info(f"streaming {stream_name}: done")
 
 
@@ -89,15 +100,28 @@ def process_contacts(state, config):
     exclude_fields = config.get("exclude_fields")
     if exclude_fields:
         logger.info(f"- ignoring fields: {exclude_fields}")
+    
+    sample_size = config.get("sample_size")
+    if sample_size:
+        logger.info(f"- sample_size: {sample_size}")
+
 
     process_stream(
         state,
         stream_name=stream_name,
-        stream_generator=client.list_contacts_dynamic(checkpoint=checkpoint),
+        stream_generator=client.list_contacts_dynamic(
+            checkpoint=checkpoint, global_sort_key="updated_time"
+        ),
         key_properties=["id"],
         bookmark_properties=["updated_time"],
         exclude_fields=exclude_fields,
+        sample_size=sample_size,
     )
+
+    logger.info(f"emitting state: {state}")
+
+    singer.write_state(state)
+
     logger.info(f"streaming {stream_name}: done")
 
 
@@ -113,6 +137,10 @@ def process_deals(state, config):
     exclude_fields = config.get("exclude_fields")
     if exclude_fields:
         logger.info(f"- ignoring fields: {exclude_fields}")
+    
+    sample_size = config.get("sample_size")
+    if sample_size:
+        logger.info(f"- sample_size: {sample_size}")
 
     process_stream(
         state,
@@ -121,7 +149,12 @@ def process_deals(state, config):
         key_properties=["id"],
         bookmark_properties=["updated_time"],
         exclude_fields=exclude_fields,
+        sample_size=sample_size,
     )
+    logger.info(f"emitting state: {state}")
+
+    singer.write_state(state)
+
     logger.info(f"streaming {stream_name}: done")
 
 
@@ -133,6 +166,7 @@ def process_stream(
     bookmark_properties=None,
     stream_alias=None,
     exclude_fields=None,
+    sample_size=None,
 ):
     # load schema from disk
     schema = load_schema(stream_name)
@@ -141,7 +175,6 @@ def process_stream(
     singer.write_schema(stream_name, schema, key_properties, stream_alias)
 
     stream_state = singer.get_bookmark(state, stream_name, "updated_time")
-    last_updated_time = None
     most_recent_update = stream_state or None
 
     # write records
@@ -182,6 +215,9 @@ def process_stream(
 
                 # instrument with metrics to allow targets to receive progress
                 counter.increment(1)
+
+                if sample_size and sample_size < i:
+                    break
 
     except Exception as err:
         logger.error(f"{str(err)}")
