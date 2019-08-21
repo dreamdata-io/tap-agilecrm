@@ -6,61 +6,73 @@
   "properties": {
     "id": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "type": {
       "type": [
-        "string"
+        "null",
+        "integer"
       ]
     },
     "created_time": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "updated_time": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "last_contacted": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "last_emailed": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "last_campaign_emaild": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "last_called": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "viewed_time": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "viewed": {
       "type": [
+        "null",
         "object"
       ],
       "properties": {
         "viewed_time": {
           "type": [
+            "null",
             "integer"
           ]
         },
         "viewer_id": {
           "type": [
+            "null",
             "integer"
           ]
         }
@@ -68,16 +80,19 @@
     },
     "star_value": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "lead_score": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "klout_score": {
       "type": [
+        "null",
         "string"
       ]
     },
@@ -90,11 +105,13 @@
         "properties": {
           "type": {
             "type": [
+              "null",
               "string"
             ]
           },
           "name": {
             "type": [
+              "null",
               "string"
             ]
           },
@@ -115,6 +132,7 @@
     },
     "entity_type": {
       "type": [
+        "null",
         "string"
       ]
     },
