@@ -1,0 +1,329 @@
+{
+  "type": [
+    "null",
+    "object"
+  ],
+  "properties": {
+    "id": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "apply_discount": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
+    "discount_value": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "discount_amt": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "discount_type": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "contact_ids": {
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "custom_data": {
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "value": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "description": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "expected_value": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "milestone": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "probability": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "close_date": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "created_time": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "milestone_changed_time": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "entity_type": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "pipeline_id": {
+      "type": [
+        "integer"
+      ]
+    },
+    "archived": {
+      "type": [
+        "boolean"
+      ]
+    },
+    "lost_reason_id": {
+      "type": [
+        "integer"
+      ]
+    },
+    "deal_source_id": {
+      "type": [
+        "integer"
+      ]
+    },
+    "total_deal_value": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "updated_time": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "isCurrencyUpdateRequired": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
+    "currency_conversion_value": {
+      "type": [
+        "number"
+      ]
+    },
+    "contacts": {
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "properties": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": [
+                    "null",
+                    "string"
+                  ]
+                },
+                "name": {
+                  "type": [
+                    "string"
+                  ]
+                },
+                "value": {
+                  "type": [
+                    "null",
+                    "string"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "owner": {
+      "type": [
+        "null",
+        "object"
+      ],
+      "properties": {
+        "id": {
+          "type": [
+            "null",
+            "integer"
+          ]
+        },
+        "domain": {
+          "type": [
+            "string"
+          ]
+        },
+        "email": {
+          "type": [
+            "string"
+          ]
+        },
+        "phone": {
+          "type": [
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "string"
+          ]
+        },
+        "pic": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "schedule_id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "calendar_url": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "calendarURL": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "won_date": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "currency_type": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "tags": {
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "tagsWithTime": {
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "createdTime": {
+            "type": [
+              "integer"
+            ]
+          },
+          "availableCount": {
+            "type": [
+              "integer"
+            ]
+          },
+          "entity_type": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "track": {
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  }
+}

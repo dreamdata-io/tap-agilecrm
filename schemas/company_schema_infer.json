@@ -1,0 +1,330 @@
+{
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "type": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "created_time": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "updated_time": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "last_contacted": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "last_emailed": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "last_campaign_emaild": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "last_called": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "viewed_time": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "viewed": {
+      "type": [
+        "null",
+        "object"
+      ],
+      "properties": {
+        "viewed_time": {
+          "type": [
+            "null",
+            "integer"
+          ]
+        },
+        "viewer_id": {
+          "type": [
+            "null",
+            "integer"
+          ]
+        }
+      }
+    },
+    "star_value": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "lead_score": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "klout_score": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "properties": {
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "value": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "subtype": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "entity_type": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "formId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "lead_source_id": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "lead_status_id": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "is_lead_converted": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
+    "lead_converted_time": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "is_duplicate_existed": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
+    "trashed_time": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "restored_time": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "is_duplicate_verification_failed": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
+    "is_client_import": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
+    "owner": {
+      "type": [
+        "null",
+        "object"
+      ],
+      "properties": {
+        "id": {
+          "type": [
+            "null",
+            "integer"
+          ]
+        },
+        "domain": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "email": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "phone": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "pic": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "schedule_id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "calendar_url": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "calendarURL": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "tags": {
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "tagsWithTime": {
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "createdTime": {
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "availableCount": {
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "entity_type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "source": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "geo_point": {
+      "type": [
+        "null",
+        "object"
+      ],
+      "properties": {
+        "latitude": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "longitude": {
+          "type": [
+            "null",
+            "number"
+          ]
+        }
+      }
+    }
+  }
+}
