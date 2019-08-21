@@ -56,10 +56,16 @@ def main():
 def process_companies(state, config):
     stream_name = "company"
 
-    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
-    exclude_fields = config.get("exclude_fields")
-
     logger.info(f"streaming {stream_name}: initiated")
+
+    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
+    if checkpoint:
+        logger.info(f"- previous state: {checkpoint}")
+
+    exclude_fields = config.get("exclude_fields")
+    if exclude_fields:
+        logger.info(f"- ignoring fields: {exclude_fields}")
+
     process_stream(
         state,
         stream_name=stream_name,
@@ -74,10 +80,16 @@ def process_companies(state, config):
 def process_contacts(state, config):
     stream_name = "contact"
 
-    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
-    exclude_fields = config.get("exclude_fields")
-
     logger.info(f"streaming {stream_name}: initiated")
+
+    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
+    if checkpoint:
+        logger.info(f"- previous state: {checkpoint}")
+
+    exclude_fields = config.get("exclude_fields")
+    if exclude_fields:
+        logger.info(f"- ignoring fields: {exclude_fields}")
+
     process_stream(
         state,
         stream_name=stream_name,
@@ -92,9 +104,16 @@ def process_contacts(state, config):
 def process_deals(state, config):
     stream_name = "deal"
 
-    exclude_fields = config.get("exclude_fields")
-
     logger.info(f"streaming {stream_name}: initiated")
+
+    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
+    if checkpoint:
+        logger.info(f"- previous state: {checkpoint}")
+
+    exclude_fields = config.get("exclude_fields")
+    if exclude_fields:
+        logger.info(f"- ignoring fields: {exclude_fields}")
+
     process_stream(
         state,
         stream_name=stream_name,
