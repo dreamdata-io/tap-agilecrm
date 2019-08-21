@@ -10,15 +10,17 @@ from singer import utils
 
 from agilecrm_client import AgileCRM
 
-REQUIRED_CONFIG_KEYS = ["api_key", "email", "domain"]
-
 logger = singer.get_logger()
 
-args = utils.parse_args(REQUIRED_CONFIG_KEYS)
+args = utils.parse_args(["config"])
 
-EMAIL = args.config.get("email")
-DOMAIN = args.config.get("domain")
-API_KEY = args.config.get("api_key")
+AGILECRM_EMAIL = "AGILECRM_EMAIL"
+AGILECRM_DOMAIN = "AGILECRM_DOMAIN"
+AGILECRM_API_KEY = "AGILECRM_API_KEY"
+
+EMAIL = args.config.get("email") or os.environ.get(AGILECRM_EMAIL)
+DOMAIN = args.config.get("domain") or os.environ.get(AGILECRM_DOMAIN)
+API_KEY = args.config.get("api_key") or os.environ.get(AGILECRM_API_KEY)
 
 # optional configuration options
 CONFIG = args.config.get("config")
