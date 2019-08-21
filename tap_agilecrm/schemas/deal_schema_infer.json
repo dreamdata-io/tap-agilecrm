@@ -280,6 +280,14 @@
         "string"
       ]
     },
+    "tags": {
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
     "tagsWithTime": {
       "type": [
         "array"
