@@ -175,7 +175,7 @@ def process_stream(
     singer.write_schema(stream_name, schema, key_properties, stream_alias)
 
     stream_state = singer.get_bookmark(state, stream_name, "updated_time")
-    most_recent_update = stream_state or None
+    most_recent_update = stream_state or 0
 
     # write records
     try:
@@ -191,6 +191,7 @@ def process_stream(
                 # assumingly if the record has never been updated
                 if updated_time == 0:
                     record["updated_time"] = created_time
+                    updated_time = created_time
 
                 # do not write records that are older than the most recent updated_time
                 # from the optional state
@@ -207,9 +208,6 @@ def process_stream(
                 singer.write_record(stream_name, record, time_extracted=utils.now())
 
                 # applies to the first iteration
-                if not most_recent_update:
-                    most_recent_update = updated_time
-
                 if most_recent_update < updated_time:
                     most_recent_update = updated_time
 
