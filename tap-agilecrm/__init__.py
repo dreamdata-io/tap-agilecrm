@@ -145,52 +145,58 @@ def process_stream(
     most_recent_update = stream_state or None
 
     # write records
-    with singer.metrics.record_counter(stream_name or stream_alias) as counter:
-        i = 0
-        for record in stream_generator:
-            i += 1
-            # ensure that created_time == updated_time
-            # there are cases where updated_time is 0 if the record has never been updated
-            updated_time = record["updated_time"]
-            created_time = record["created_time"]
-            record_id = record["id"]
-            if updated_time == 0:
-                record["updated_time"] = created_time
+    try:
+        with singer.metrics.record_counter(stream_name or stream_alias) as counter:
+            i = 0
+            for record in stream_generator:
+                i += 1
+                updated_time = record["updated_time"]
+                created_time = record["created_time"]
 
-            # do not write records that are older than the most recent updated_time
-            # from the optional state
-            if stream_state and stream_state > updated_time:
-                continue
+                # ensure that created_time == updated_time
+                # there are cases where updated_time is 0
+                # assumingly if the record has never been updated
+                if updated_time == 0:
+                    record["updated_time"] = created_time
 
-            # remove fields that are in the exclude_fields argument
-            if exclude_fields:
-                for field in exclude_fields:
-                    record.pop(field, None)
+                # do not write records that are older than the most recent updated_time
+                # from the optional state
+                if stream_state and stream_state > updated_time:
+                    continue
 
-            # write warning if the current record is newer then the previous record
-            if last_updated_time and last_updated_time < updated_time:
-                logger.warning(
-                    f"{i}: item id={record_id} out of order updated_time={updated_time}"
-                )
+                # remove fields that are in the exclude_fields argument
+                if exclude_fields:
+                    for field in exclude_fields:
+                        record.pop(field, None)
 
-            last_updated_time = updated_time
 
-            # write record with extracted timestamp
-            singer.write_record(stream_name, record, time_extracted=utils.now())
-            
-            # applies to the first iteration
-            if not most_recent_update:
-                most_recent_update = updated_time
+                # write record with extracted timestamp
+                singer.write_record(stream_name, record, time_extracted=utils.now())
 
-            if most_recent_update < updated_time:
-                most_recent_update = updated_time
+                # applies to the first iteration
+                if not most_recent_update:
+                    most_recent_update = updated_time
 
-            # instrument with metrics to allow targets to receive progress
-            counter.increment(1)
+                if most_recent_update < updated_time:
+                    most_recent_update = updated_time
 
-    stream_state = most_recent_update if most_recent_update > stream_state else stream_state
+                # instrument with metrics to allow targets to receive progress
+                counter.increment(1)
 
-    return singer.write_bookmark(state, stream_name, "updated_time", stream_state)
+    except Exception as err:
+        logger.error(f"{str(err)}")
+    finally:
+        if not stream_state:
+            return singer.write_bookmark(
+                state, stream_name, "updated_time", most_recent_update
+            )
+
+        return singer.write_bookmark(
+            state,
+            stream_name,
+            "updated_time",
+            most_recent_update if most_recent_update > stream_state else stream_state,
+        )
 
 
 def load_schema(stream_name):
