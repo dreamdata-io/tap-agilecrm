@@ -1,11 +1,9 @@
-from tap_agilecrm import load_schema
+from unittest import TestCase
+
+from tap_agilecrm.streams import load_schema
 
 from google.cloud import bigquery
-from google.cloud.bigquery.job import SourceFormat
-from google.cloud.bigquery import Dataset, WriteDisposition
 from google.cloud.bigquery import SchemaField
-from google.cloud.bigquery import LoadJobConfig
-from google.api_core import exceptions
 
 # COPIED FROM github.com/realself
 # https://github.com/RealSelf/target-bigquery/blob/master/target_bigquery.py#L54-L108
@@ -63,17 +61,32 @@ def build_schema(schema):
         schema_name, schema_type, schema_mode, schema_description, schema_fields = define_schema(
             schema["properties"][key], key
         )
-        if isinstance(schema_type, list):
-            print(schema_name, schema_type, schema_fields)
+        # if isinstance(schema_type, list):
+        #     print(schema_name, schema_type, schema_fields)
         field = SchemaField(
             schema_name, schema_type, schema_mode, schema_description, schema_fields
         )
-        import pprint
 
-        pprint.pprint(field)
         SCHEMA.append(field)
 
     return SCHEMA
+
+
+class TestSchemas(TestCase):
+    def test_contact(self):
+        json_schema = load_schema("contact")
+        bigquery_schema = build_schema(json_schema)
+        str(bigquery_schema)
+
+    def test_company(self):
+        json_schema = load_schema("company")
+        bigquery_schema = build_schema(json_schema)
+        str(bigquery_schema)
+
+    def test_deal(self):
+        json_schema = load_schema("deal")
+        bigquery_schema = build_schema(json_schema)
+        str(bigquery_schema)
 
 
 if __name__ == "__main__":
