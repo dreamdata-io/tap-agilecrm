@@ -22,9 +22,6 @@ EMAIL = args.config.get("email") or os.environ.get(AGILECRM_EMAIL)
 DOMAIN = args.config.get("domain") or os.environ.get(AGILECRM_DOMAIN)
 API_KEY = args.config.get("api_key") or os.environ.get(AGILECRM_API_KEY)
 
-# optional configuration options
-CONFIG = args.config.get("config")
-
 client = AgileCRM(EMAIL, DOMAIN, API_KEY)
 
 
@@ -42,131 +39,98 @@ def main():
         "deal": process_deals,
     }
 
-    for stream_name in sorted(CONFIG.keys()):
+    bookmark_property = "updated_time"
+
+    # optional configuration options
+    config = args.config.get("config", {})
+    if not config:
+        logger.error(
+            "no streams configured for this tap - provide a 'config' field in the configurations object"
+        )
+        sys.exit(1)
+
+    for stream_name, stream_config in sorted(config.items()):
         if stream_name not in streams:
             logger.error(
                 f"stream name: '{stream_name}' is unsupported. Supported streams: {streams.keys()}"
             )
             sys.exit(1)
 
-        stream_processor = streams[stream_name]
-        stream_config = CONFIG.get(stream_name, {})
+        stream_handler = streams[stream_name]
 
-        stream_processor(state, stream_config)
+        logger.info(f"[{stream_name}] streaming..")
+
+        checkpoint = singer.get_bookmark(state, stream_name, bookmark_property)
+        if checkpoint:
+            logger.info(f"[{stream_name}] previous state: {checkpoint}")
+
+        exclude_fields = stream_config.get("exclude_fields")
+        if exclude_fields:
+            logger.info(f"[{stream_name}] ignoring fields: {exclude_fields}")
+
+        sample_size = stream_config.get("sample_size")
+        if sample_size:
+            logger.info(f"[{stream_name}] sample_size: {sample_size}")
+
+        new_checkpoint = stream_handler(
+            checkpoint=checkpoint,
+            exclude_fields=exclude_fields,
+            sample_size=sample_size,
+        )
+        singer.write_bookmark(state, stream_name, bookmark_property, new_checkpoint)
+        logger.info(f"[{stream_name}] emitting state: {state}")
+        singer.write_state(state)
+        logger.info(f"[{stream_name}] done")
 
 
-def process_companies(state, config):
+def process_companies(checkpoint=None, exclude_fields=None, sample_size=None):
     stream_name = "company"
 
-    logger.info(f"streaming {stream_name}: initiated")
-
-    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
-    if checkpoint:
-        logger.info(f"- previous state: {checkpoint}")
-
-    exclude_fields = config.get("exclude_fields")
-    if exclude_fields:
-        logger.info(f"- ignoring fields: {exclude_fields}")
-    
-    sample_size = config.get("sample_size")
-    if sample_size:
-        logger.info(f"- sample_size: {sample_size}")
-
-    process_stream(
-        state,
+    return process_stream(
         stream_name=stream_name,
         stream_generator=client.list_companies_dynamic(
             checkpoint=checkpoint, global_sort_key="updated_time"
         ),
         key_properties=["id"],
-        bookmark_properties=["updated_time"],
+        checkpoint=checkpoint,
         exclude_fields=exclude_fields,
         sample_size=sample_size,
     )
-    logger.info(f"emitting state: {state}")
-
-    singer.write_state(state)
-
-    logger.info(f"streaming {stream_name}: done")
 
 
-def process_contacts(state, config):
+def process_contacts(checkpoint=None, exclude_fields=None, sample_size=None):
     stream_name = "contact"
 
-    logger.info(f"streaming {stream_name}: initiated")
-
-    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
-    if checkpoint:
-        logger.info(f"- previous state: {checkpoint}")
-
-    exclude_fields = config.get("exclude_fields")
-    if exclude_fields:
-        logger.info(f"- ignoring fields: {exclude_fields}")
-    
-    sample_size = config.get("sample_size")
-    if sample_size:
-        logger.info(f"- sample_size: {sample_size}")
-
-
-    process_stream(
-        state,
+    return process_stream(
         stream_name=stream_name,
         stream_generator=client.list_contacts_dynamic(
             checkpoint=checkpoint, global_sort_key="updated_time"
         ),
         key_properties=["id"],
-        bookmark_properties=["updated_time"],
+        checkpoint=checkpoint,
         exclude_fields=exclude_fields,
         sample_size=sample_size,
     )
 
-    logger.info(f"emitting state: {state}")
 
-    singer.write_state(state)
-
-    logger.info(f"streaming {stream_name}: done")
-
-
-def process_deals(state, config):
+def process_deals(checkpoint=None, exclude_fields=None, sample_size=None):
     stream_name = "deal"
 
-    logger.info(f"streaming {stream_name}: initiated")
-
-    checkpoint = singer.get_bookmark(state, stream_name, "updated_time")
-    if checkpoint:
-        logger.info(f"- previous state: {checkpoint}")
-
-    exclude_fields = config.get("exclude_fields")
-    if exclude_fields:
-        logger.info(f"- ignoring fields: {exclude_fields}")
-    
-    sample_size = config.get("sample_size")
-    if sample_size:
-        logger.info(f"- sample_size: {sample_size}")
-
-    process_stream(
-        state,
+    return process_stream(
         stream_name=stream_name,
         stream_generator=client.list_deals(),
         key_properties=["id"],
-        bookmark_properties=["updated_time"],
+        checkpoint=checkpoint,
         exclude_fields=exclude_fields,
         sample_size=sample_size,
     )
-    logger.info(f"emitting state: {state}")
-
-    singer.write_state(state)
-
-    logger.info(f"streaming {stream_name}: done")
 
 
 def process_stream(
-    state,
     stream_name,
     stream_generator,
     key_properties,
-    bookmark_properties=None,
-    stream_alias=None,
+    checkpoint=None,
     exclude_fields=None,
     sample_size=None,
 ):
@@ -174,14 +138,14 @@ def process_stream(
     schema = load_schema(stream_name)
 
     # write schema
-    singer.write_schema(stream_name, schema, key_properties, stream_alias)
+    singer.write_schema(stream_name, schema, key_properties)
 
-    stream_state = singer.get_bookmark(state, stream_name, "updated_time")
+    stream_state = checkpoint
     most_recent_update = stream_state or 0
 
     # write records
     try:
-        with singer.metrics.record_counter(stream_name or stream_alias) as counter:
+        with singer.metrics.record_counter(stream_name) as counter:
             i = 0
             for record in stream_generator:
                 i += 1
@@ -208,7 +172,6 @@ def process_stream(
                     for field in exclude_fields:
                         record.pop(field, None)
 
-
                 # write record with extracted timestamp
                 singer.write_record(stream_name, record, time_extracted=utils.now())
 
@@ -226,14 +189,9 @@ def process_stream(
         logger.error(f"{str(err)}")
     finally:
         if not stream_state:
-            return singer.write_bookmark(
-                state, stream_name, "updated_time", most_recent_update
-            )
+            return most_recent_update
 
-        return singer.write_bookmark(
-            state,
-            stream_name,
-            "updated_time",
+        return (
             most_recent_update if most_recent_update > stream_state else stream_state,
         )
 
