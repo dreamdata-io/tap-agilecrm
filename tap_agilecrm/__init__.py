@@ -182,7 +182,7 @@ def process_stream(
                 # instrument with metrics to allow targets to receive progress
                 counter.increment(1)
 
-                if sample_size and sample_size < i:
+                if sample_size and sample_size <= i:
                     break
 
     except Exception as err:
