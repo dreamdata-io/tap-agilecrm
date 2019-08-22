@@ -14,20 +14,20 @@ from tap_agilecrm.streams import load_schema, process_streams
 
 logger = singer.get_logger()
 
-args = utils.parse_args(["config"])
 
 AGILECRM_EMAIL = "AGILECRM_EMAIL"
 AGILECRM_DOMAIN = "AGILECRM_DOMAIN"
 AGILECRM_API_KEY = "AGILECRM_API_KEY"
 
-EMAIL = args.config.get("email") or os.environ.get(AGILECRM_EMAIL)
-DOMAIN = args.config.get("domain") or os.environ.get(AGILECRM_DOMAIN)
-API_KEY = args.config.get("api_key") or os.environ.get(AGILECRM_API_KEY)
-
-client = AgileCRM(EMAIL, DOMAIN, API_KEY)
-
 
 def main():
+    args = utils.parse_args(["config"])
+    EMAIL = args.config.get("email") or os.environ.get(AGILECRM_EMAIL)
+    DOMAIN = args.config.get("domain") or os.environ.get(AGILECRM_DOMAIN)
+    API_KEY = args.config.get("api_key") or os.environ.get(AGILECRM_API_KEY)
+
+    client = AgileCRM(EMAIL, DOMAIN, API_KEY)
+
     if args.discover:
         discover_stream = discover()
         print(json.dumps(discover_stream, sort_keys=True, indent="  "))
