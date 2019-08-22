@@ -42,14 +42,8 @@ class AgileCRM:
         }
         yield from self.__paginate("GET", "opportunity", params=args, **kwargs)
 
-    def list_companies_dynamic(
-        self, page_size=None, global_sort_key=None, checkpoint=None, **kwargs
-    ):
+    def list_companies_dynamic(self, page_size=None, global_sort_key=None, **kwargs):
         filterJson = {"contact_type": "COMPANY"}
-        if checkpoint:
-            filterJson["rules"] = [
-                {"LHS": "updated_time", "CONDITION": "IS BEFORE", "RHS": checkpoint}
-            ]
 
         args = {
             "page_size": page_size or self.pagination_page_size,
@@ -60,14 +54,8 @@ class AgileCRM:
             "POST", "filters/filter/dynamic-filter", data=args, **kwargs
         )
 
-    def list_contacts_dynamic(
-        self, page_size=None, global_sort_key=None, checkpoint=None, **kwargs
-    ):
+    def list_contacts_dynamic(self, page_size=None, global_sort_key=None, **kwargs):
         filterJson = {"contact_type": "PERSON"}
-        if checkpoint:
-            filterJson["rules"] = [
-                {"LHS": "updated_time", "CONDITION": "IS AFTER", "RHS": checkpoint}
-            ]
 
         args = {
             "page_size": page_size or self.pagination_page_size,
