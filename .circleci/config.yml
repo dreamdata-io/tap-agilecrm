@@ -30,6 +30,7 @@ jobs:
     steps:
       - checkout
       - run: pipenv run pytest -v
+      - run: echo "passed all tests!"
 
 workflows:
   version: 2
