@@ -9,7 +9,7 @@ setup(
     author="Dreamdata",
     url="https://dreamdata.io",
     classifiers=["Programming Language :: Python :: 3 :: Only"],
-    install_requires=["singer-python==5.8.0", "requests==2.22.0"],
+    install_requires=["singer-python==5.8.0", "requests"],
     entry_points="""
         [console_scripts]
         tap-agilecrm=tap_agilecrm:main
