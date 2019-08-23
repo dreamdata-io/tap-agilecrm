@@ -2,7 +2,6 @@ from unittest import TestCase
 
 from tap_agilecrm.streams import load_schema
 
-from google.cloud import bigquery
 from google.cloud.bigquery import SchemaField
 
 # COPIED FROM github.com/realself
