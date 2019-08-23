@@ -15,7 +15,7 @@ jobs:
       - run:
           command: |
             pip install pipenv
-            pipenv install --dev
+            pipenv install --dev -e .
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
