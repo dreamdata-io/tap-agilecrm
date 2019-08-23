@@ -22,21 +22,18 @@ jobs:
             - ".venv"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.7/site-packages"
-  test:
-    docker:
-      - image: circleci/python:3.7 # every job must define an image for the docker executor and subsequent jobs may define a different image.
-        environment:
-          PIPENV_VENV_IN_PROJECT: "true"
-    steps:
-      - checkout
-      - run: pipenv run pytest -v
-      - run: echo "passed all tests!"
+      - run:
+          command: |
+            mkdir test-reports
+            pytest --junitxml=test-reports/junit.xml
+      - store_test_results:
+          path: test-reports
+
+      - store_artifacts:
+          path: test-reports
 
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
-      - test:
-          requires:
-            - build
