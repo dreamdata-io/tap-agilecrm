@@ -24,6 +24,10 @@ setup(
     },
     packages=["tap_agilecrm"],
     setup_requires=["pytest-runner"],
-    tests_require=["pytest", "google.cloud.bigquery"],
+    extras_require={
+        "test": [
+            ["pytest", "google.cloud.bigquery"]
+        ]
+    },
 )
 
