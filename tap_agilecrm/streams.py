@@ -133,6 +133,6 @@ def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields, sampl
 
 def load_schema(stream_name):
     filename = f"tap_agilecrm/schemas/{stream_name}_schema_infer.json"
-    filepath = os.path.join(pkg_resources.get_distribution('mypackage').location, filename)
+    filepath = os.path.join(pkg_resources.get_distribution('tap_agilecrm').location, filename)
     with open(filepath, "r") as fp:
         return json.load(fp)
