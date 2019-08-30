@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.7"
 
 services:
   tap-agilecrm:
@@ -7,3 +7,5 @@ services:
       - AGILECRM_API_KEY
       - AGILECRM_EMAIL
       - AGILECRM_DOMAIN
+    volumes:
+      - ./streams:/data
