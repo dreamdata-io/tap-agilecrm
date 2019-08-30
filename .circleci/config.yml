@@ -16,7 +16,7 @@ jobs:
           command: |
             pip install pipenv
             pip install pytest
-            pipenv install --dev
+            pipenv install --dev -e .
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
