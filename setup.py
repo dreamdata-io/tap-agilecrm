@@ -16,7 +16,7 @@ setup(
     """,
     include_package_data=True,
     package_data={
-        "tap_agilecrm/schemas": [
+        "./tap_agilecrm/schemas": [
             "company_schema_infer.json",
             "contact_schema_infer.json",
             "deal_schema_infer.json",
