@@ -8,7 +8,8 @@
                 "campaignStatus",
                 "concurrent_save_allowed",
                 "unsubscribeStatus",
-                "emailBounceStatus"
+                "emailBounceStatus",
+                "geo_point"
             ]
         },
         "contact": {
