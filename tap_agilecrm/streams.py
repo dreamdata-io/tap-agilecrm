@@ -3,6 +3,8 @@
 import json
 import sys
 from typing import Dict, Any, Optional, Callable
+import pkg_resources
+import os.path
 
 import singer
 from singer import utils
@@ -130,5 +132,7 @@ def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields, sampl
 
 
 def load_schema(stream_name):
-    with open(f"tap_agilecrm/schemas/{stream_name}_schema_infer.json", "r") as fp:
+    filename = f"tap_agilecrm/schemas/{stream_name}_schema_infer.json"
+    filepath = os.path.join(pkg_resources.get_distribution('mypackage').location, filename)
+    with open(filepath, "r") as fp:
         return json.load(fp)
