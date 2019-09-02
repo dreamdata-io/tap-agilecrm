@@ -120,21 +120,25 @@
     },
     "pipeline_id": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "archived": {
       "type": [
+        "null",
         "boolean"
       ]
     },
     "lost_reason_id": {
       "type": [
+        "null",
         "integer"
       ]
     },
     "deal_source_id": {
       "type": [
+        "null",
         "integer"
       ]
     },
@@ -158,6 +162,7 @@
     },
     "currency_conversion_value": {
       "type": [
+        "null",
         "number"
       ]
     },
