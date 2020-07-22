@@ -51,12 +51,8 @@ def process_stream(
     if exclude_fields:
         logger.info(f"[{stream_name}] ignoring fields: {exclude_fields}")
 
-    sample_size = config.get("sample_size")
-    if sample_size:
-        logger.info(f"[{stream_name}] sample_size: {sample_size}")
-
     new_checkpoint = emit_stream(
-        stream_name, stream_generator, checkpoint, exclude_fields, sample_size
+        stream_name, stream_generator, checkpoint, exclude_fields
     )
 
     singer.write_bookmark(state, stream_name, bookmark_property, new_checkpoint)
@@ -68,7 +64,7 @@ def process_stream(
     logger.info(f"[{stream_name}] done")
 
 
-def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields, sample_size):
+def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields):
     stream_state = checkpoint
     most_recent_update = stream_state or 0
 
@@ -109,9 +105,6 @@ def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields, sampl
 
                 # instrument with metrics to allow targets to receive progress
                 counter.increment(1)
-
-                if sample_size and sample_size <= i:
-                    break
 
     except Exception as err:
         logger.error(f"{str(err)}")
