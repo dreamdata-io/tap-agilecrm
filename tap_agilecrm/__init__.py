@@ -10,7 +10,7 @@ import singer
 from singer import utils
 
 from tap_agilecrm.client import AgileCRM
-from tap_agilecrm.streams import load_schema, process_streams
+from tap_agilecrm.streams import process_streams
 
 logger = singer.get_logger()
 
@@ -28,11 +28,6 @@ def main():
 
     client = AgileCRM(EMAIL, DOMAIN, API_KEY)
 
-    if args.discover:
-        discover_stream = discover()
-        print(json.dumps(discover_stream, sort_keys=True, indent="  "))
-        return
-
     state = args.state
     config = args.config.get("config", {})
 
@@ -44,19 +39,6 @@ def main():
         sys.exit(1)
 
     process_streams(client, config, state)
-
-
-def discover():
-    stream_names = ["company", "contact", "deal"]
-    streams = [
-        {
-            "tap_stream_id": stream_name,
-            "stream": stream_name,
-            "schema": load_schema(stream_name),
-        }
-        for stream_name in stream_names
-    ]
-    return {"streams": streams}
 
 
 if __name__ == "__main__":

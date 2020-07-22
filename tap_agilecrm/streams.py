@@ -69,13 +69,6 @@ def process_stream(
 
 
 def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields, sample_size):
-    # load schema from disk
-    schema = load_schema(stream_name)
-
-    # write schema
-    key_properties = ["id"]
-    singer.write_schema(stream_name, schema, key_properties)
-
     stream_state = checkpoint
     most_recent_update = stream_state or 0
 
@@ -129,10 +122,3 @@ def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields, sampl
         return (
             most_recent_update if most_recent_update > stream_state else stream_state,
         )
-
-
-def load_schema(stream_name):
-    filename = f"tap_agilecrm/schemas/{stream_name}_schema_infer.json"
-    filepath = os.path.join(pkg_resources.get_distribution('tap_agilecrm').location, filename)
-    with open(filepath, "r") as fp:
-        return json.load(fp)
