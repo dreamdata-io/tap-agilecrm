@@ -2,6 +2,7 @@
 
 import json
 import sys
+import traceback
 from typing import Dict, Any, Optional, Callable
 import pkg_resources
 import os.path
@@ -108,10 +109,9 @@ def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields):
 
     except Exception as err:
         logger.error(f"{str(err)}")
+        logger.error(traceback.format_exc())
     finally:
         if not stream_state:
             return most_recent_update
 
-        return (
-            most_recent_update if most_recent_update > stream_state else stream_state,
-        )
+        return most_recent_update if most_recent_update > stream_state else stream_state
