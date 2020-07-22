@@ -51,12 +51,8 @@ def process_stream(
     if exclude_fields:
         logger.info(f"[{stream_name}] ignoring fields: {exclude_fields}")
 
-    sample_size = config.get("sample_size")
-    if sample_size:
-        logger.info(f"[{stream_name}] sample_size: {sample_size}")
-
     new_checkpoint = emit_stream(
-        stream_name, stream_generator, checkpoint, exclude_fields, sample_size
+        stream_name, stream_generator, checkpoint, exclude_fields
     )
 
     singer.write_bookmark(state, stream_name, bookmark_property, new_checkpoint)
@@ -68,14 +64,7 @@ def process_stream(
     logger.info(f"[{stream_name}] done")
 
 
-def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields, sample_size):
-    # load schema from disk
-    schema = load_schema(stream_name)
-
-    # write schema
-    key_properties = ["id"]
-    singer.write_schema(stream_name, schema, key_properties)
-
+def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields):
     stream_state = checkpoint
     most_recent_update = stream_state or 0
 
@@ -117,9 +106,6 @@ def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields, sampl
                 # instrument with metrics to allow targets to receive progress
                 counter.increment(1)
 
-                if sample_size and sample_size <= i:
-                    break
-
     except Exception as err:
         logger.error(f"{str(err)}")
     finally:
@@ -129,10 +115,3 @@ def emit_stream(stream_name, stream_generator, checkpoint, exclude_fields, sampl
         return (
             most_recent_update if most_recent_update > stream_state else stream_state,
         )
-
-
-def load_schema(stream_name):
-    filename = f"tap_agilecrm/schemas/{stream_name}_schema_infer.json"
-    filepath = os.path.join(pkg_resources.get_distribution('tap_agilecrm').location, filename)
-    with open(filepath, "r") as fp:
-        return json.load(fp)
